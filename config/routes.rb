@@ -44,7 +44,8 @@ Discourse::Application.routes.draw do
     post "webhooks/postmark" => "webhooks#postmark"
     post "webhooks/sendgrid" => "webhooks#sendgrid"
     post "webhooks/sparkpost" => "webhooks#sparkpost"
-
+    post "webhooks/netcore" => "wehooks#netcore"
+    
     scope path: nil, format: true, constraints: { format: :xml } do
       resources :sitemap, only: [:index]
       get "/sitemap_:page" => "sitemap#page", :page => /[1-9][0-9]*/

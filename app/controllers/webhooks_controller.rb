@@ -173,6 +173,22 @@ class WebhooksController < ActionController::Base
     success
   end
 
+  def netcore
+    events = params["_json"]
+    events.each do |event|
+      message_id = event["X-APIHEADER"]
+      if event["EVENT"] == "bounce"
+        if event["type"] == "HARDBOUNCE"
+          process_bounce(message_id, event["email"], SiteSetting.hard_bounce_score)
+        else event["type"] == "SOFTBOUNCE"
+          process_bounce(message_id, event["email"], SiteSetting.soft_bounce_score)
+        end
+      end
+    end
+
+    success
+  end
+
   def aws
     raw = request.raw_post
     json = JSON.parse(raw)
